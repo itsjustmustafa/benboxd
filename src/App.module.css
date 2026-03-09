@@ -1,0 +1,17 @@
+.app {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.siteLogo img {
+  width: 250px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 10px
+}

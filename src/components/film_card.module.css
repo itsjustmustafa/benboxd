@@ -1,0 +1,36 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+
+.card img {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px white;
+}
+
+.result img {
+    width: 200px;
+    box-shadow: none;
+}
+
+.title {
+    font-weight: 700;
+}
+
+.rating {
+    font-size: x-large;
+    color: gold;
+    text-shadow: 0 0 5px yellow;
+}
+
+.card * {
+    max-width: 400px;
+}
+
+.result * {
+    max-width: 200px;
+}

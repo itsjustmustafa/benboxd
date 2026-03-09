@@ -1,0 +1,37 @@
+.cardDisplay {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+    background-color: transparent;
+    /* default */
+    transition: background-color 0.5s ease;
+    /* default transition */
+}
+
+.cardDisplay.success {
+    background-color: rgba(114, 240, 114, 0.224);
+    transition: background-color 0.2s ease;
+}
+
+.cardDisplay.failure {
+    background-color: rgba(240, 114, 114, 0.336);
+    transition: background-color 0.2s ease;
+}
+
+.results {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.resultView {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.copyButton {
+    width: 200px
+}
