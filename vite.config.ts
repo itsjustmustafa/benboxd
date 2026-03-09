@@ -21,4 +21,5 @@ export default defineConfig({
             src: "/src",
         },
     },
+    base: "/benboxd/",
 });
