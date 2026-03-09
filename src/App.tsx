@@ -3,8 +3,8 @@ import benboxdLogo from "src/assets/benboxd logo.png";
 import styles from "src/App.module.css";
 import type { Movie } from "src/movie";
 import Game from "src/game";
-
 import Rand from "rand-seed";
+import Favicon from "react-favicon";
 
 const rand = new Rand(new Date().toLocaleDateString());
 
@@ -17,9 +17,8 @@ const TOTAL_ROUNDS = 11;
 function createMovieIndicies(total: number, movies: Movie[]): number[] {
     const indices: number[] = [];
     while (indices.length < total) {
-        console.log("Indicies lenght: " + indices.length);
         const next_index = Math.floor(randRange(0, movies.length));
-        if (movies[next_index].rating < 0) {
+        if (movies[next_index].rating <= 0) {
             continue;
         }
         if (indices.length) {
@@ -31,14 +30,13 @@ function createMovieIndicies(total: number, movies: Movie[]): number[] {
                 continue;
             }
         }
-        console.log("Adding movie: " + movies[next_index].title);
         indices.push(next_index);
     }
     return indices;
 }
 
 async function loadMovies(): Promise<Movie[]> {
-    const res = await fetch("/all_movies.json");
+    const res = await fetch(import.meta.env.BASE_URL + "all_movies.json");
     return res.json();
 }
 
@@ -61,13 +59,17 @@ function App() {
         }
     }, [movies]);
 
+    if (movieIndicies.length == 0) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={styles.app}>
+            <Favicon url={import.meta.env.BASE_URL + "favicon.ico"} />
             <div className={styles.siteLogo}>
                 <img src={benboxdLogo} alt="BenBoxd Logo" />
             </div>
             <div className={styles.game}>
-                {/* Game */}
                 <Game movies={movies} movie_indicies={movieIndicies} />
             </div>
         </div>
