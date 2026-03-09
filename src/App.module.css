@@ -10,8 +10,14 @@
 
 .siteLogo img {
   width: 250px;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  margin: 10px
+  margin: 10px;
+}
+
+@media screen and (max-width: 850px) {
+  .siteLogo img {
+    position: relative;
+  }
 }

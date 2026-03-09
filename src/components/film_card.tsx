@@ -6,6 +6,7 @@ interface FilmCardProps {
     as_result?: boolean;
     show_rating?: boolean;
     onClick?: () => void;
+    status?: "success" | "failure" | "none";
 }
 
 function ratingToStars(rating: number): string {
@@ -18,10 +19,14 @@ function FilmCard({
     as_result = false,
     show_rating = true,
     onClick = () => {},
+    status = "none",
 }: FilmCardProps) {
     return (
         <div
-            className={`${styles.card} ${as_result ? styles.result : ""}`}
+            className={`
+                ${styles.card} ${as_result ? styles.result : ""}
+                ${status == "success" ? styles.success : status == "failure" ? styles.failure : ""}
+                `}
             onClick={onClick}
         >
             <div>

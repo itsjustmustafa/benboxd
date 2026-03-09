@@ -4,9 +4,8 @@
     flex-wrap: wrap;
     padding: 20px;
     background-color: transparent;
-    /* default */
     transition: background-color 0.5s ease;
-    /* default transition */
+    align-items: center;
 }
 
 .cardDisplay.success {
@@ -30,8 +29,26 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    padding: 50px
 }
 
 .copyButton {
     width: 200px
+}
+
+@media screen and (max-width: 850px) {
+    .cardDisplay {
+        flex-direction: column;
+    }
+
+    .cardDisplay > * {
+        width: 50%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .resultView {
+        padding: 30px;
+    }
 }

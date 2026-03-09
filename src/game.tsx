@@ -73,29 +73,31 @@ function Game({ movies, movie_indicies }: GameProps) {
 
     const copyResults = () => {
         navigator.clipboard.writeText(
-            `Scored ${getScore()}/${gameResults.length} in Benboxd`,
+            `Scored ${getScore()}/${gameResults.length} in Benboxd\nPlay at https://mzza.xyz/benboxd/`,
         );
         setResultsCopied(true);
         setTimeout(() => {
             setResultsCopied(false);
         }, 2000);
     };
+    const copyButton = (
+        <button className={styles.copyButton} onClick={copyResults}>
+            {resultsCopied ? "Copied" : "Copy results"}
+        </button>
+    );
 
     return (
         <>
             {currentMovie !== undefined && nextMovie !== undefined && (
                 <>
                     <h3>Which movie did Ben rate higher?</h3>
-                    <div
-                        className={`${styles.cardDisplay}
-                ${gameBackground == "success" ? styles.success : ""}
-                ${gameBackground == "failure" ? styles.failure : ""}`}
-                    >
+                    <div className={`${styles.cardDisplay}`}>
                         <motion.div layout key={currentIndex}>
                             <FilmCard
                                 movie={currentMovie}
                                 key={currentIndex}
                                 onClick={() => handleFilmClick(currentIndex)}
+                                status={gameBackground}
                             />
                         </motion.div>
                         <motion.div layout key={currentIndex + 1}>
@@ -106,19 +108,18 @@ function Game({ movies, movie_indicies }: GameProps) {
                                 onClick={() =>
                                     handleFilmClick(currentIndex + 1)
                                 }
+                                status={gameBackground}
                             />
                         </motion.div>
                     </div>
                 </>
             )}
-            {currentMovie == undefined && (
+            {gameResults.length == movie_indicies.length - 1 && (
                 <div className={styles.resultView}>
                     <h3>
                         Results: {getScore()}/{gameResults.length}
                     </h3>
-                    <button className={styles.copyButton} onClick={copyResults}>
-                        {resultsCopied ? "Copied" : "Copy results"}
-                    </button>
+                    {copyButton}
                     <div className={styles.results}>
                         {gameResults.map((result) => {
                             const firstMovie = movies[result.firstMovieIndex];
@@ -133,6 +134,7 @@ function Game({ movies, movie_indicies }: GameProps) {
                             );
                         })}
                     </div>
+                    {copyButton}
                 </div>
             )}
         </>
