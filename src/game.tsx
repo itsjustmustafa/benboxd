@@ -32,8 +32,13 @@ function resultMessage(
     score: number,
     total_guesses: number,
     date_string: string,
+    with_hard_mode: boolean,
 ): string {
-    return `Scored ${score}/${total_guesses} in Benboxd on ${date_string}\nPlay at https://mzza.xyz/benboxd/`;
+    const mode = with_hard_mode ? " • (Hard)" : "";
+    return `Benboxd${mode} ${score}/${total_guesses}
+${date_string}
+
+https://mzza.xyz/benboxd/`;
 }
 
 function Game({ movies, movie_indicies, game_time, difficulty }: GameProps) {
@@ -98,11 +103,11 @@ function Game({ movies, movie_indicies, game_time, difficulty }: GameProps) {
 
     const copyResults = () => {
         navigator.clipboard.writeText(
-            // `Scored ${getScore()}/${gameResults.length} in Benboxd\nPlay at https://mzza.xyz/benboxd/`,
             resultMessage(
                 getScore(),
                 gameResults.length,
                 formatLocalDate(game_time),
+                difficulty == "hard",
             ),
         );
         setResultsCopied(true);
