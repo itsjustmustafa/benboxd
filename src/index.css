@@ -14,6 +14,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+#root {
+  width: 100%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -55,4 +59,10 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media screen and (min-width: 330px) and (min-height: 680px) {
+  .no-scroll {
+    overflow: hidden;
+  }
 }

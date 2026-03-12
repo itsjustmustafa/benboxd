@@ -62,11 +62,18 @@
     width: 40%;
 }
 
+.stacked_layout {
+    visibility: visible;
+}
+
+.compact_layout {
+    visibility: collapse;
+}
 
 @media screen and (max-width: 850px) {
-    .card {
+    .game_card {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         justify-content: center;
     }
 
@@ -74,8 +81,8 @@
         max-width: 100%;
     }
 
-    .card img {
-        width: 100px;
+    .game_card img {
+        width: 150px;
     }
 
     .result {
@@ -86,6 +93,24 @@
     .result .title {
         font-size: 15px;
         font-weight: 400;
+    }
+
+    .result img {
+        width: 100px;
+    }
+
+    .stacked_layout {
+        visibility: collapse;
+    }
+
+    .compact_layout {
+        visibility: visible;
+    }
+
+    .movie_info {
+        display: flex;
+        flex-direction: column;
+        max-width: 100px;
     }
 
 }

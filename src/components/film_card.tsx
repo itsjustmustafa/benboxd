@@ -21,29 +21,45 @@ function FilmCard({
     onClick = () => {},
     status = "none",
 }: FilmCardProps) {
+    const movie_poster = (
+        <img
+            src={movie.poster}
+            alt={"Poster for " + movie.title}
+            draggable={false}
+        />
+    );
+
+    const rating = show_rating ? ratingToStars(movie.rating) : "???";
+
+    const result_style =
+        status == "success"
+            ? styles.success
+            : status == "failure"
+              ? styles.failure
+              : "";
+
+    const card_style = `${styles.card} ${as_result ? styles.result : styles.game_card} ${result_style}`;
     return (
-        <div
-            className={`
-                ${styles.card} ${as_result ? styles.result : ""}
-                ${status == "success" ? styles.success : status == "failure" ? styles.failure : ""}
-                `}
-            onClick={onClick}
-        >
-            <div>
-                <img
-                    src={movie.poster}
-                    alt={"Poster for " + movie.title}
-                    draggable={false}
-                />
+        <>
+            <div
+                className={`${card_style} ${styles.stacked_layout}`}
+                onClick={onClick}
+            >
+                <div>{movie_poster}</div>
+                <div className={styles.title}>{movie.title}</div>
+                <div className={styles.rating}>{rating}</div>
             </div>
-            <div className={styles.title}>{movie.title}</div>
-            {show_rating && (
-                <div className={styles.rating}>
-                    {ratingToStars(movie.rating)}
+            <div
+                className={`${card_style} ${styles.compact_layout}`}
+                onClick={onClick}
+            >
+                <div>{movie_poster}</div>
+                <div className={styles.movie_info}>
+                    <div className={styles.title}>{movie.title}</div>
+                    <div className={styles.rating}>{rating}</div>
                 </div>
-            )}
-            {!show_rating && <div className={styles.rating}>???</div>}
-        </div>
+            </div>
+        </>
     );
 }
 

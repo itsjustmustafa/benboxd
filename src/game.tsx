@@ -3,11 +3,14 @@ import FilmCard from "src/components/film_card";
 import styles from "./game.module.css";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Result from "./components/result";
+import Result from "src/components/result";
+import useBodyClass from "src/hooks/useBodyClass";
 
 interface GameProps {
     movies: Movie[];
     movie_indicies: number[];
+    difficulty: "easy" | "hard";
+    game_time: Date;
 }
 
 type GameResult = {
@@ -17,7 +20,23 @@ type GameResult = {
     is_correct: boolean;
 };
 
-function Game({ movies, movie_indicies }: GameProps) {
+export function formatLocalDate(date: Date): string {
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+}
+
+function resultMessage(
+    score: number,
+    total_guesses: number,
+    date_string: string,
+): string {
+    return `Scored ${score}/${total_guesses} in Benboxd on ${date_string}\nPlay at https://mzza.xyz/benboxd/`;
+}
+
+function Game({ movies, movie_indicies, game_time, difficulty }: GameProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [showNextRating, setShowNextRating] = useState(false);
     const [gameBackground, setGameBackground] = useState<
@@ -39,17 +58,23 @@ function Game({ movies, movie_indicies }: GameProps) {
     }
 
     const handleFilmClick = (index: number) => {
+        if (showNextRating) {
+            // we are already mid-transition to next round
+            return;
+        }
         setShowNextRating(true);
         const is_correct = index == correctIndex;
-        setGameResults((prevGameResults) => {
-            const next_game_result: GameResult = {
-                firstMovieIndex: movie_indicies[currentIndex],
-                secondMovieIndex: movie_indicies[currentIndex + 1],
-                guess: index == currentIndex ? "first" : "second",
-                is_correct: is_correct,
-            };
-            return [...prevGameResults, next_game_result];
-        });
+        setTimeout(() => {
+            setGameResults((prevGameResults) => {
+                const next_game_result: GameResult = {
+                    firstMovieIndex: movie_indicies[currentIndex],
+                    secondMovieIndex: movie_indicies[currentIndex + 1],
+                    guess: index == currentIndex ? "first" : "second",
+                    is_correct: is_correct,
+                };
+                return [...prevGameResults, next_game_result];
+            });
+        }, 500);
         if (is_correct) {
             setGameBackground("success");
         } else {
@@ -73,7 +98,12 @@ function Game({ movies, movie_indicies }: GameProps) {
 
     const copyResults = () => {
         navigator.clipboard.writeText(
-            `Scored ${getScore()}/${gameResults.length} in Benboxd\nPlay at https://mzza.xyz/benboxd/`,
+            // `Scored ${getScore()}/${gameResults.length} in Benboxd\nPlay at https://mzza.xyz/benboxd/`,
+            resultMessage(
+                getScore(),
+                gameResults.length,
+                formatLocalDate(game_time),
+            ),
         );
         setResultsCopied(true);
         setTimeout(() => {
@@ -86,34 +116,53 @@ function Game({ movies, movie_indicies }: GameProps) {
         </button>
     );
 
+    const game_finished = gameResults.length >= movie_indicies.length - 1;
+
+    useBodyClass("no-scroll", !game_finished);
+
+    const show_ratings = difficulty == "easy";
+
     return (
         <>
-            {currentMovie !== undefined && nextMovie !== undefined && (
-                <>
-                    <h3>Which movie did Ben rate higher?</h3>
-                    <div className={`${styles.cardDisplay}`}>
-                        <motion.div layout key={currentIndex}>
-                            <FilmCard
-                                movie={currentMovie}
+            {!game_finished &&
+                currentMovie !== undefined &&
+                nextMovie !== undefined && (
+                    <>
+                        <h3>Which movie did Ben rate higher?</h3>
+                        <div className={`${styles.cardDisplay}`}>
+                            <motion.div
+                                layout
                                 key={currentIndex}
-                                onClick={() => handleFilmClick(currentIndex)}
-                                status={gameBackground}
-                            />
-                        </motion.div>
-                        <motion.div layout key={currentIndex + 1}>
-                            <FilmCard
-                                movie={nextMovie}
+                                className="motion_div"
+                            >
+                                <FilmCard
+                                    movie={currentMovie}
+                                    key={currentIndex}
+                                    onClick={() =>
+                                        handleFilmClick(currentIndex)
+                                    }
+                                    status={gameBackground}
+                                    show_rating={show_ratings}
+                                />
+                            </motion.div>
+                            <motion.div
+                                layout
                                 key={currentIndex + 1}
-                                show_rating={showNextRating}
-                                onClick={() =>
-                                    handleFilmClick(currentIndex + 1)
-                                }
-                                status={gameBackground}
-                            />
-                        </motion.div>
-                    </div>
-                </>
-            )}
+                                className="motion_div"
+                            >
+                                <FilmCard
+                                    movie={nextMovie}
+                                    key={currentIndex + 1}
+                                    show_rating={showNextRating && show_ratings}
+                                    onClick={() =>
+                                        handleFilmClick(currentIndex + 1)
+                                    }
+                                    status={gameBackground}
+                                />
+                            </motion.div>
+                        </div>
+                    </>
+                )}
             {gameResults.length == movie_indicies.length - 1 && (
                 <div className={styles.resultView}>
                     <h3>

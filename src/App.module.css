@@ -16,8 +16,36 @@
   margin: 10px;
 }
 
+.starting img {
+  max-width: 400px;
+}
+
+.choose_difficulty {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.game h3 {
+  margin: 0;
+}
+
+.game {
+  width: 100%;
+}
+
+.choose_difficulty button {
+  width: 50%;
+}
+
 @media screen and (max-width: 850px) {
   .siteLogo img {
     position: relative;
+  }
+
+  .starting img {
+    visibility: collapse;
+    height: 0;
   }
 }
