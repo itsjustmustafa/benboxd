@@ -50,6 +50,8 @@ button {
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: white;
+  background-color: #2b2a33;
 }
 
 button:hover {
