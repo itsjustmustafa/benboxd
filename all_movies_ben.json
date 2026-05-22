@@ -120,11 +120,6 @@
     "rating": 4
   },
   {
-    "title": "Neon Genesis Evangelion: The End of Evangelion (1997)",
-    "poster": "https://a.ltrbxd.com/resized/film-poster/4/0/3/1/1/40311-neon-genesis-evangelion-the-end-of-evangelion-0-150-0-225-crop.jpg?v=3f8b0ad85b",
-    "rating": 5
-  },
-  {
     "title": "Princess Mononoke (1997)",
     "poster": "https://a.ltrbxd.com/resized/sm/upload/fu/5h/fp/mj/mNqZOtJIQfFQPjo3hmYLIn8Qqhf-0-150-0-225-crop.jpg?v=aae03975f7",
     "rating": 4
@@ -1136,7 +1131,14 @@
   },
   {
     "title": "Barack Obama (2026)",
-    "poster": "https://i.imgur.com/VXrvADT.png",
+    "poster_": "https://i.imgur.com/VXrvADT.png",
+    "poster": "https://i.ibb.co/YTBpTXrS/image.png",
     "rating": 4
+  },
+  {
+    "title": "Neon Genesis Evangelion: The End of Evangelion (1997)",
+    "poster_": "https://i.imgur.com/5NePnxv.png",
+    "poster":   "https://i.ibb.co/fGSSxMyM/image.png",
+    "rating": 5
   }
 ]
